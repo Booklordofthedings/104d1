@@ -36,39 +36,17 @@ class Program
 		uint32 MaxTask
 		float ProgressBar
 		Update();
-		*/
-		String[4] Counting = String[4]("""
-			|=====================-----| | |
-			|--Doing Testing-----------| | |
-			|______________________5/10| | |
-			""",
 
-			"""
-			|=====================-----|  /|
-			|--Doing Testing-----------| / |
-			|______________________5/10|/  |
-			""",
-			"""
-			|=====================-----|   |
-			|--Doing Testing-----------|---|
-			|______________________5/10|   |
-			""",
-			"""
-			|=====================-----|\\  |
-			|--Doing Testing-----------| \\ |
-			|______________________5/10|  \\|
-			"""
-			);
-		int counter = 0;
-		while(true)
-		{
-			Console.Clear();
-			Console.WriteLine(Counting[counter]);
-			counter++;
-			if(counter == 4)
-				counter = 0;
-			Thread.Sleep(200);
-		}
+		|=====>                                      | 20%|\ |
+		| Name of the Task                    - 65350 left| \|
+		*/
+		var t = new LoadingCustom();
+		t.FillPercentage = 9;
+		t.TasksLeft = 10;
+		t.CurrentTask = "Do something";
+		var i = t._CreateLoadingString();
+		Console.WriteLine(i);
+		delete i;
 		Console.ReadLine(scope .());
 	}
 }
