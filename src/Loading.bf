@@ -45,7 +45,13 @@ class Loading
 		get {
 			if(!DoAutomaticTasksLeft)
 				return _TasksLeft;
-			return 0;
+
+			uint16 left = 0;
+			for(Task t in _Tasks)
+				if(!t.IsDone)
+					left++;
+
+			return left;
 		}
 		set {
 				_TasksLeft = value;
