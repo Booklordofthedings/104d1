@@ -5,48 +5,24 @@ class Program
 {
 	public static void Main()
 	{
-		/*
-|=====================-----|
-		| | |
-		| | |
-		| | |
+		var t = new Loading();
+		t.DoTimeLeft = true;
+		t.DoTasksLeft = true;
+		t.DoTaskName = true;
+		t.ProjectedFinish = DateTime.Now.AddMinutes(3);
+		for(int i = 0; i < 101; i++)
+		{
+			Console.Clear();
+			t.FillPercent = i;
+			t.SpinnerState++;
+		
+			Console.WriteLine(Generator.GenerateString(.. scope .(), t));
 
-		|  /|
-		| / |
-		|/  |
-
-		|   |
-		|---|
-		|   |
-
-		|\\  |
-		| \\ |
-		|  \\|
-
-		|=====================-----|
-		|--Doing Testing-----------|
-		|__________________________|
-
-		Do Spinner //Wether the spinner should be displayed
-		Do Tasks //Wether the task counter should be displayed
-		Do Status //Wether the Task name should be displayed
-		Do AutoProgress //The progress bar percentage will be set automatically
-		String CurrentStatus
-		uint32 CurrentTask
-		uint32 MaxTask
-		float ProgressBar
-		Update();
-
-		|=====>                                      | 20%|\ |
-		| Name of the Task                    - 65350 left| \|
-		*/
-		var t = new LoadingCustom();
-		t.FillPercentage = 9;
-		t.TasksLeft = 10;
-		t.CurrentTask = "Do something";
-		var i = t._CreateLoadingString();
-		Console.WriteLine(i);
-		delete i;
+			if(t.SpinnerState == uint8.MaxValue)
+				t.SpinnerState = 1;
+			Thread.Sleep(100);
+		}
+		delete t;
 		Console.ReadLine(scope .());
 	}
 }
