@@ -5,11 +5,12 @@ class Program
 {
 	public static void Main()
 	{
+
 		var t = new Loading();
 		t.DoTimeLeft = true;
 		t.DoTasksLeft = true;
 		t.DoTaskName = true;
-		t.ProjectedFinish = DateTime.Now.AddMinutes(3);
+		t.ProjectedFinish = .(0,1,0);
 		for(int i = 0; i < 101; i++)
 		{
 			Console.Clear();

@@ -11,9 +11,9 @@ class Loading
 	public bool DoTasksLeft {get; set;} = false; //How many tasks still need to be done
 
 	public bool DoAutomaticNaming {get; set;} = false; //Automatically outputs the taskname
-	public bool DoAutomaticPercentage {get; set;} = false; //Automatically calculates the percentage based on the weighted tasks
-	public bool DoAutomaticTiming {get; set;} = false; //Calculates the timing automatically
-	public bool DoAutomaticTasksLeft {get; set;} = false; //Calculates the tasks left automatically
+	public bool DoAutomaticPercentage {get; set;} = false; //x Automatically calculates the percentage based on the weighted tasks
+	public bool DoAutomaticTiming {get; set;} = false; //x Calculates the timing automatically
+	public bool DoAutomaticTasksLeft {get; set;} = false; //x Calculates the tasks left automatically
 
 	//How much the bar is filled in percent
 	private float _FillPercent = 0;
@@ -33,12 +33,43 @@ class Loading
 			return (float)weight / (float)doneWeight;
 		}
 		public set {
-			FillPercent = Math.Clamp(value, 0, 100);
+			_FillPercent = Math.Clamp(value, 0, 100);
 		}
 	};
 	public uint8 SpinnerState {get; set;} = 0; //What state the spinner is in rn
-	public String CurrentTaskName {get; set;} = new String("Doing something"); //What the current task is called
-	public DateTime ProjectedFinish {get; set;};//How long itl take to finishe
+	private String _CurrentTaskName = new String("Do something");
+	public String CurrentTaskName {
+		public get {
+			if(!DoAutomaticNaming)
+				return _CurrentTaskName;
+			for(Task t in _Tasks)
+				if(!t.IsDone)
+					return t.TaskName;
+
+			return "No Tasks left";
+		}
+		set {
+			delete CurrentTaskName;
+			CurrentTaskName = new String(value);
+		}
+	}//What the current task is called
+	//in what time the loading will be finished
+	private DateTime _ProjectedFinish;
+	public TimeSpan ProjectedFinish {
+		public get {
+		 if(!DoAutomaticTiming)
+				return _ProjectedFinish - DateTime.Now;
+
+			TimeSpan left = TimeSpan(0);
+			for(Task t in _Tasks)
+				left += t.TimeTaken;
+
+			return left;
+		}
+		set {
+			_ProjectedFinish = DateTime.Now + value;
+		}
+	};//How long itl take to finishe
 	//How many Tasks are left to be done
 	private uint16 _TasksLeft = 0;
 	public uint16 TasksLeft {

@@ -55,8 +55,7 @@ class Generator
 		if(pSettings.DoTimeLeft) //Display the projected time left
 		{
 			String toFill = scope .();
-			TimeSpan t = pSettings.ProjectedFinish - DateTime.Now;
-			t.ToString(toFill);
+			pSettings.ProjectedFinish.ToString(toFill);
 
 			while(toFill.Length > MAX_BAR_SIZE - " left".Length)
 				toFill.TrimEnd();
