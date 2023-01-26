@@ -1,4 +1,4 @@
-namespace _104d1;
+namespace _104d1.Components;
 using System;
 class Generator
 {

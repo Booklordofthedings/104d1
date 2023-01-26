@@ -1,4 +1,4 @@
-namespace _104d1;
+namespace _104d1.Components;
 using System;
 using System.Collections;
 ///The raw loading bar settings
@@ -21,6 +21,7 @@ class Loading
 		public get {
 			if(!DoAutomaticPercentage)
 				return _FillPercent; //The default set value
+
 			//Calculate
 			int weight = 0;
 			int doneWeight = 0;
@@ -30,7 +31,7 @@ class Loading
 				if(t.IsDone)
 					doneWeight += t.TaskWeight;
 			}
-			return (float)weight / (float)doneWeight;
+			return ((float)doneWeight / (float)weight) * 100;
 		}
 		public set {
 			_FillPercent = Math.Clamp(value, 0, 100);
@@ -99,6 +100,34 @@ class Loading
 	public ~this()
 	{
 		DeleteContainerAndItems!(_Tasks);
-		delete CurrentTaskName;
+		delete _CurrentTaskName;
+	}
+
+	//Call this function after every program tick, even if nothing happened
+	//Its responsible for the spinner state
+	public void Update()
+	{
+		SpinnerState++;
+		if(SpinnerState == uint8.MaxValue)
+			SpinnerState = uint.MinValue;
+	}
+
+	///Returns true if all tasks are finished and marks the task as finished
+	public bool Finished()
+	{
+		l: for(Task t in _Tasks)
+		{
+			if(!t.IsDone)
+			{
+				t.IsDone = true;
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public void AddTask(Task pTask)
+	{
+		_Tasks.Add(pTask);
 	}
 }
